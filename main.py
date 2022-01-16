@@ -32,9 +32,8 @@ async def on_message_edit(before, after):
     await logs.send(embed=embed)
 
 @client.event
-async def on_channel_create(channel):
-    embed = discord.Embed(title="A new channel created", description=f"**Name:** {channel.name}\n**Category:** {channel.category.name}\n**Channel id:** {channel.id}")
-    embed.set_footer(text=f"id: {channel.id}")
-
+async def on_guild_role_create(role):
+    logs = client.get_channel(int(log_channel))
+    await logs.send(f"{role.name} {role.colour}}")
 
 client.run(TOKEN)

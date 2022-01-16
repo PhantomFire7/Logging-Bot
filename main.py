@@ -22,6 +22,21 @@ async def on_message_delete(message):
     logs = client.get_channel(int(log_channel))
 
     await logs.send(embed=embed)
+    
+@client.event()
+async def on_message_delete(self, msg):
+    d = "deleted a message in"
+    now = datetime.utcnow()
+    if msg.author.bot:
+        return
+    logs = client.get_channel(int(log_channel))
+    user = msg.author
+    emb = Embed(title="**Message deleted**", description=f"{msg.author.mention} {d} {msg.channel.mention}", color=Color.blue(), timestamp=now)
+    emb.add_field(name="**Message content:**", value=msg.content, inline=False)
+    emb.set_author(name=msg.author, icon_url=msg.author.avatar_url)
+    emb.set_thumbnail(url=user.avatar_url)
+    emb.set_footer(text=f"User ID: {msg.author.id}\nChannel ID: {msg.channel.id}\nMessage ID: {msg.id}")
+    await logs.send(embed=embed)
 
 @client.event
 async def on_message_edit(before, after):
